@@ -1,5 +1,7 @@
 import React from "react";
 
-const App = () => <div />;
+import Card from "./Card";
+
+const App = () => <Card />;
 
 export default App;
