@@ -1,6 +1,6 @@
 import React from "react";
 
-import Card from "./Card";
+import Card from "@src/Card";
 
 const hardcodedData = {
   thumbnail:
