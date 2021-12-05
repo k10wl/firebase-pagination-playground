@@ -50,8 +50,6 @@ const transitionDuration = {
 };
 
 const Card = ({ article }: Props) => {
-  console.log("test")
-
   const {
     thumbnail,
     creationDate,
