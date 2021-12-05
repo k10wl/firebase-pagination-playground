@@ -77,6 +77,7 @@ const Card = ({ article }: Props) => {
       </div>
       <div className={styles.thumbnail_container}>
         <motion.img
+          draggable={false}
           transition={transitionDuration}
           variants={imageMotion}
           src={thumbnail}
@@ -101,11 +102,21 @@ const Card = ({ article }: Props) => {
           </div>
           <div className={styles.info_block}>
             <div className={styles.info_container}>
-              <img className={styles.info_icon} src={clockIco} alt="" />
+              <img
+                draggable={false}
+                className={styles.info_icon}
+                src={clockIco}
+                alt=""
+              />
               <p className={styles.info_text}>{time}</p>
             </div>
             <div className={styles.info_container}>
-              <img className={styles.info_icon} src={commentIco} alt="" />
+              <img
+                draggable={false}
+                className={styles.info_icon}
+                src={commentIco}
+                alt=""
+              />
               <p className={styles.info_text}>
                 {comments} comment{comments > 1 && "s"}
               </p>

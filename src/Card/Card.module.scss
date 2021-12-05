@@ -69,13 +69,13 @@ $image-height: 275px;
       padding: 15px 20px;
       min-height: calc(#{$card-height} - #{$image-height});
       .title {
-        margin: 0;
+        margin: 0 0 2px;
         color: $secondary-1;
         font-size: 1.3rem;
         font-weight: 800;
       }
       .subtitle {
-        margin: 0;
+        margin: 0 0 2px;
         color: $primary-1;
         font-weight: 600;
         font-size: 1rem;
@@ -94,6 +94,7 @@ $image-height: 275px;
       .info_block {
         display: flex;
         justify-content: space-between;
+        margin-top: 5px;
         .info_container {
           display: flex;
           align-items: center;
