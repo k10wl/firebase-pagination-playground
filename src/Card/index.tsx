@@ -19,6 +19,15 @@ interface Props {
   };
 }
 
+const cardMotion = {
+  hover: {
+    boxShadow: "0 1px 35px 0px rgba(0, 0, 0, 0.25)",
+  },
+  rest: {
+    boxShadow: "0 1px 1px 1px rgba(0, 0, 0, 0.25)",
+  },
+};
+
 const imageMotion = {
   hover: {
     scale: 1.15,
@@ -55,7 +64,13 @@ const Card = ({ article }: Props) => {
   const month = creationDate.toLocaleDateString("en-GB", { month: "short" });
 
   return (
-    <motion.div whileHover="hover" initial="rest" className={styles.container}>
+    <motion.div
+      whileHover="hover"
+      initial="rest"
+      variants={cardMotion}
+      transition={transitionDuration}
+      className={styles.container}
+    >
       <div className={styles.date}>
         <p>{day}</p>
         <p>{month.toUpperCase()}</p>
