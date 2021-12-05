@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 import styles from "./Card.module.scss";
 
@@ -15,6 +16,27 @@ interface Props {
   };
 }
 
+const imageMotion = {
+  hover: {
+    scale: 1.15,
+  },
+};
+
+const textMotion = {
+  hover: {
+    height: "auto",
+  },
+  rest: {
+    margin: 0,
+    height: 0,
+    overflow: "hidden",
+  },
+};
+
+const transitionDuration = {
+  duration: 0.25,
+};
+
 const Card = ({ article }: Props) => {
   const {
     thumbnail,
@@ -30,22 +52,35 @@ const Card = ({ article }: Props) => {
   const month = creationDate.toLocaleDateString("en-GB", { month: "short" });
 
   return (
-    <div className={styles.container}>
+    <motion.div whileHover="hover" initial="rest" className={styles.container}>
       <div className={styles.date}>
         <p>{day}</p>
         <p>{month.toUpperCase()}</p>
       </div>
       <div className={styles.thumbnail_container}>
-        <img src={thumbnail} alt="img" />
+        <motion.img
+          transition={transitionDuration}
+          variants={imageMotion}
+          src={thumbnail}
+          alt="img"
+        />
       </div>
       <div className={styles.content_container}>
         <div className={styles.category}>
           <span>{category.toUpperCase()}</span>
         </div>
         <div className={styles.article}>
-          <p className={styles.title}>{title}</p>
-          <p className={styles.subtitle}>{subtitle}</p>
-          <p className={styles.content}>{content}</p>
+          <div>
+            <p className={styles.title}>{title}</p>
+            <p className={styles.subtitle}>{subtitle}</p>
+            <motion.p
+              transition={transitionDuration}
+              variants={textMotion}
+              className={styles.content}
+            >
+              {content}
+            </motion.p>
+          </div>
           <div className={styles.info}>
             <p>{time}</p>
             <p>
@@ -54,7 +89,7 @@ const Card = ({ article }: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
