@@ -1,6 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+import clockIco from "@images/clock.svg";
+import commentIco from "@images/comments.svg";
+
 import styles from "./Card.module.scss";
 
 interface Props {
@@ -81,11 +84,17 @@ const Card = ({ article }: Props) => {
               {content}
             </motion.p>
           </div>
-          <div className={styles.info}>
-            <p>{time}</p>
-            <p>
-              {comments} comment{comments > 1 && "s"}
-            </p>
+          <div className={styles.info_block}>
+            <div className={styles.info_container}>
+              <img className={styles.info_icon} src={clockIco} alt="" />
+              <p className={styles.info_text}>{time}</p>
+            </div>
+            <div className={styles.info_container}>
+              <img className={styles.info_icon} src={commentIco} alt="" />
+              <p className={styles.info_text}>
+                {comments} comment{comments > 1 && "s"}
+              </p>
+            </div>
           </div>
         </div>
       </div>

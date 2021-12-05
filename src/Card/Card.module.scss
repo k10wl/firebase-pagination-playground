@@ -92,13 +92,21 @@ $image-height: 275px;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
-      .info {
+      .info_block {
         display: flex;
         justify-content: space-between;
-        background-color: #ffffff;
-        p {
-          margin: 0;
-          color: $secondary-2;
+        .info_container {
+          display: flex;
+          align-items: center;
+          .info_icon {
+            height: 1rem;
+            margin-right: 3px;
+            margin-bottom: 4px;
+          }
+          .info_text {
+            margin: 0;
+            color: $secondary-2;
+          }
         }
       }
     }
