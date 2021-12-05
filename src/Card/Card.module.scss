@@ -1,5 +1,6 @@
 @import "src/stylesheets/variables";
 
+$card-height: 400px;
 $image-height: 275px;
 
 .container {
@@ -7,27 +8,10 @@ $image-height: 275px;
   display: flex;
   align-items: flex-end;
   width: 300px;
-  height: 400px;
+  height: $card-height;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
-
-  &:hover {
-    box-shadow: 0 5px 20px 1px rgba(0, 0, 0, 0.25);
-    .thumbnail_container {
-      height: $image-height * 1.2;
-      img {
-        filter: brightness(50%);
-      }
-    }
-    .content_container {
-      .article {
-        .content {
-          display: block;
-        }
-      }
-    }
-  }
 
   .date {
     position: absolute;
@@ -79,8 +63,12 @@ $image-height: 275px;
       }
     }
     .article {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       background-color: white;
       padding: 15px 20px;
+      min-height: calc(#{$card-height} - #{$image-height});
       .title {
         margin: 0;
         color: $secondary-1;
@@ -94,19 +82,22 @@ $image-height: 275px;
         font-size: 1rem;
       }
       .content {
-        display: none;
+        $line-height: 1.5rem;
         font-family: "Roboto Condensed", sans-serif;
         color: $secondary-2;
         font-size: 0.8rem;
         font-weight: 300;
-        line-height: 1.5rem;
+        line-height: $line-height;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
       }
       .info {
         display: flex;
         justify-content: space-between;
         background-color: #ffffff;
         p {
-          margin: 35px 0 0;
+          margin: 0;
           color: $secondary-2;
         }
       }
