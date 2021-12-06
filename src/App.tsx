@@ -1,7 +1,6 @@
 import React from "react";
 
-import Card from "@src/Card";
-import CardSkeleton from "@src/Card/CardSkeleton";
+import Card, { CardSkeleton } from "@src/Card";
 
 import useFirebaseDB from "@src/hooks/useFirebaseDB";
 
