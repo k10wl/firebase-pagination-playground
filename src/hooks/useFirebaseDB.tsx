@@ -38,9 +38,15 @@ const mapArticle = (collection: QuerySnapshot) => {
 const useFirebaseDB = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isMore, setIsMore] = useState(true);
   const [lastArticle, setLastArticle] = useState<DocumentData>();
 
   const manageFetchedData = (collection: QuerySnapshot) => {
+    if (collection.size === 0) {
+      setIsMore(false);
+      setLoading(false);
+      return;
+    }
     const articlesArray = mapArticle(collection);
     setArticles((prevState) => [...prevState, ...articlesArray]);
     setLoading(false);
@@ -70,7 +76,7 @@ const useFirebaseDB = () => {
       });
   }, []);
 
-  return { fetchData, loading, articles };
+  return { fetchData, loading, articles, isMore };
 };
 
 export default useFirebaseDB;
