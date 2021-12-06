@@ -3,6 +3,7 @@ import firebase from "firebase";
 
 import Card, { ArticleInterface } from "@src/Card";
 import { firestore } from "@src/firebase";
+import CardSkeleton from "@src/Card/CardSkeleton";
 
 type FirebaseTimestamp = {
   seconds: number;
@@ -78,9 +79,7 @@ const App = () => {
 
   return (
     <>
-      {articles.map((article) => {
-        return <Card key={article?.id} article={article} />;
-      })}
+      <CardSkeleton />
       <button onClick={fetchData}>Load next</button>
     </>
   );
