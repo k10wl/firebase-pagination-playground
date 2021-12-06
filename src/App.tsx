@@ -12,7 +12,10 @@ const App = () => {
       {articles.map((article) => (
         <Card key={article.id} article={article} />
       ))}
-      {loading && [...Array(10)].map(() => <CardSkeleton />)}
+      {loading &&
+        [...Array(10)].map(() => (
+          <CardSkeleton key={Math.floor(Math.random() * 1048575)} />
+        ))}
       <button onClick={fetchData}>Load next</button>
     </>
   );
