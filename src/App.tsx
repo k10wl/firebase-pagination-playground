@@ -1,20 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import firebase from "firebase";
 
-import Card from "@src/Card";
+import Card, { ArticleInterface } from "@src/Card";
+import { firestore } from "@src/firebase";
+import CardSkeleton from "@src/Card/CardSkeleton";
 
-const hardcodedData = {
-  thumbnail:
-    "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F_IUYlNU10BMY%2FSoqHmcW1UGI%2FAAAAAAAAhls%2FU-uQ2Dr0qqc%2Fs400%2FMountain-Landscapes-19.jpg&f=1&nofb=1",
-  creationDate: new Date(),
-  category: "Post",
-  title: "City Lights in New York",
-  subtitle: "The city that never sleeps.",
-  content:
-    "New York, the largest city in the U.S., is an architectural marvel with plenty of historic monuments, magnificent buildings and countless dazzling skyscrapers.",
-  time: "6 minutes ago",
-  comments: 5,
+type FirebaseTimestamp = {
+  seconds: number;
+  nanoseconds: number;
 };
 
-const App = () => <Card article={hardcodedData} />;
+type APICard = ArticleInterface & {
+  id: string;
+  time: FirebaseTimestamp | Date;
+  creationDate: FirebaseTimestamp | Date;
+};
+
+const App = () => {
+  const [articles, setArticles] = useState<APICard[] | undefined[]>([]);
+  const [lastArticle, setLastArticle] =
+    useState<
+      firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>
+    >();
+
+  useEffect(() => {
+    firestore
+      .collection("articles")
+      .limit(10)
+      .get()
+      .then((collection) => {
+        const articlesArray = collection.docs.map((doc) => {
+          const response = doc.data() as APICard;
+
+          const time = response.time as FirebaseTimestamp;
+          const creationDate = response.creationDate as FirebaseTimestamp;
+
+          const article: APICard = {
+            ...response,
+            id: doc.id,
+            time: new Date(time.seconds * 1000),
+            creationDate: new Date(creationDate.seconds * 1000),
+          };
+
+          return article;
+        });
+        setArticles(articlesArray);
+        setLastArticle(collection.docs[collection.docs.length - 1]);
+      });
+  }, []);
+
+  const fetchData = () => {
+    firestore
+      .collection("articles")
+      .startAfter(lastArticle)
+      .limit(10)
+      .get()
+      .then((collection) => {
+        const articlesArray = collection.docs.map((doc) => {
+          const response = doc.data() as APICard;
+
+          const time = response.time as FirebaseTimestamp;
+          const creationDate = response.creationDate as FirebaseTimestamp;
+
+          const article: APICard = {
+            ...response,
+            id: doc.id,
+            time: new Date(time.seconds * 1000),
+            creationDate: new Date(creationDate.seconds * 1000),
+          };
+
+          return article;
+        });
+        // @ts-ignore
+        setArticles((prevState) => [...prevState, ...articlesArray]);
+        setLastArticle(collection.docs[collection.docs.length - 1]);
+      });
+  };
+
+  return (
+    <>
+      <CardSkeleton />
+      <button onClick={fetchData}>Load next</button>
+    </>
+  );
+};
 
 export default App;
