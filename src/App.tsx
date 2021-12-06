@@ -20,9 +20,15 @@ const App = () => {
             <CardSkeleton key={Math.floor(Math.random() * 1048575)} />
           ))}
       </div>
-      <button onClick={fetchData} disabled={!isMore}>
-        {isMore ? "Load next" : "No more data"}
-      </button>
+      <div className={styles.loading_options}>
+        <label>
+          Auto loading
+          <input type="checkbox" />
+        </label>
+        <button onClick={fetchData} disabled={!isMore}>
+          {isMore ? "Load next" : "No more data"}
+        </button>
+      </div>
     </>
   );
 };
