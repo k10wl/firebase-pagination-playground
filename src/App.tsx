@@ -1,85 +1,12 @@
-import React, { useEffect, useState } from "react";
-import firebase from "firebase";
+import React from "react";
 
-import Card, { ArticleInterface } from "@src/Card";
-import { firestore } from "@src/firebase";
+import Card from "@src/Card";
 import CardSkeleton from "@src/Card/CardSkeleton";
 
-type FirebaseTimestamp = {
-  seconds: number;
-  nanoseconds: number;
-};
-
-type APICard = ArticleInterface & {
-  id: string;
-  time: FirebaseTimestamp | Date;
-  creationDate: FirebaseTimestamp | Date;
-};
+import useFirebaseDB from "@src/hooks/useFirebaseDB";
 
 const App = () => {
-  const [articles, setArticles] = useState<APICard[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [lastArticle, setLastArticle] =
-    useState<
-      firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>
-    >();
-
-  useEffect(() => {
-    setLoading(true);
-    firestore
-      .collection("articles")
-      .limit(10)
-      .get()
-      .then((collection) => {
-        const articlesArray = collection.docs.map((doc) => {
-          const response = doc.data() as APICard;
-
-          const time = response.time as FirebaseTimestamp;
-          const creationDate = response.creationDate as FirebaseTimestamp;
-
-          const article: APICard = {
-            ...response,
-            id: doc.id,
-            time: new Date(time.seconds * 1000),
-            creationDate: new Date(creationDate.seconds * 1000),
-          };
-
-          return article;
-        });
-        setArticles(articlesArray);
-        setLoading(false);
-        setLastArticle(collection.docs[collection.docs.length - 1]);
-      });
-  }, []);
-
-  const fetchData = () => {
-    setLoading(true);
-    firestore
-      .collection("articles")
-      .startAfter(lastArticle)
-      .limit(10)
-      .get()
-      .then((collection) => {
-        const articlesArray = collection.docs.map((doc) => {
-          const response = doc.data() as APICard;
-
-          const time = response.time as FirebaseTimestamp;
-          const creationDate = response.creationDate as FirebaseTimestamp;
-
-          const article: APICard = {
-            ...response,
-            id: doc.id,
-            time: new Date(time.seconds * 1000),
-            creationDate: new Date(creationDate.seconds * 1000),
-          };
-
-          return article;
-        });
-        setArticles((prevState) => [...prevState, ...articlesArray]);
-        setLoading(false);
-        setLastArticle(collection.docs[collection.docs.length - 1]);
-      });
-  };
+  const { loading, articles, fetchData } = useFirebaseDB();
 
   return (
     <>
