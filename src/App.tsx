@@ -15,13 +15,13 @@ const App = () => {
   const lastCardRef = useCallback(
     (node) => {
       if (loading) {
-        return
+        return;
       }
       if (!autoLoading) {
-        return
+        return;
       }
       if (observer.current) {
-        observer.current.disconnect()
+        observer.current.disconnect();
       }
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && isMore) {
