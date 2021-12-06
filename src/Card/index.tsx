@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import TimeAgo from "timeago-react";
+        
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -16,7 +18,7 @@ interface Props {
     content: string;
     thumbnail: string;
     creationDate: Date;
-    time: string;
+    time: Date;
     comments: number;
   };
 }
@@ -130,7 +132,9 @@ const Card = ({ article }: Props) => {
                     src={clockIco}
                     alt=""
                   />
-                  <p className={styles.info_text}>{article.time}</p>
+                  <p className={styles.info_text}>
+                    <TimeAgo datetime={article.time} />
+                  </p>
                 </>
               ) : (
                 <Skeleton width={100} containerTestId="skeleton-time-ago" />
