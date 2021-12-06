@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Card, { CardSkeleton } from "@src/Card";
 
@@ -7,6 +7,7 @@ import useFirebaseDB from "@src/hooks/useFirebaseDB";
 import styles from "./App.module.scss";
 
 const App = () => {
+  const [autoLoading, setAutoLoading] = useState(false);
   const { loading, articles, fetchData, isMore } = useFirebaseDB();
 
   return (
@@ -22,10 +23,14 @@ const App = () => {
       </div>
       <div className={styles.loading_options}>
         <label>
-          Auto loading
-          <input type="checkbox" />
+          Scroll loading
+          <input
+            type="checkbox"
+            checked={autoLoading}
+            onChange={(e) => setAutoLoading(e.currentTarget.checked)}
+          />
         </label>
-        <button onClick={fetchData} disabled={!isMore}>
+        <button onClick={fetchData} disabled={!isMore || autoLoading}>
           {isMore ? "Load next" : "No more data"}
         </button>
       </div>
