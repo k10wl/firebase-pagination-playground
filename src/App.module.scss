@@ -10,8 +10,20 @@
   }
 }
 
-button {
+.loading_options {
   position: fixed;
   right: 25px;
   bottom: 25px;
+  z-index: 9;
+  padding: 15px;
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: white;
+
+  label {
+    display: block;
+  }
+  button {
+    float: right;
+  }
 }
