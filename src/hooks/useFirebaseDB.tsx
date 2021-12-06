@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import firebase from "firebase";
 
 import { firestore } from "@src/firebase";
@@ -54,7 +54,20 @@ const useFirebaseDB = () => {
   };
 
   const fetchData = () => {
+    if (loading) {
+      return;
+    }
     setLoading(true);
+    if (!lastArticle) {
+      firestore
+        .collection("articles")
+        .limit(10)
+        .get()
+        .then((collection) => {
+          manageFetchedData(collection);
+        });
+      return;
+    }
     firestore
       .collection("articles")
       .startAfter(lastArticle)
@@ -63,17 +76,10 @@ const useFirebaseDB = () => {
       .then((collection) => {
         manageFetchedData(collection);
       });
-  };
+  }
 
   useEffect(() => {
-    setLoading(true);
-    firestore
-      .collection("articles")
-      .limit(10)
-      .get()
-      .then((collection) => {
-        manageFetchedData(collection);
-      });
+    fetchData();
   }, []);
 
   return { fetchData, loading, articles, isMore };
