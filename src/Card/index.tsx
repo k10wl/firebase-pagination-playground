@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import clockIco from "@images/clock.svg";
 import commentIco from "@images/comments.svg";
@@ -7,7 +9,7 @@ import commentIco from "@images/comments.svg";
 import styles from "./Card.module.scss";
 
 interface Props {
-  article: {
+  article?: {
     category: string;
     title: string;
     subtitle: string;
@@ -50,18 +52,12 @@ const transitionDuration = {
 };
 
 const Card = ({ article }: Props) => {
-  const {
-    thumbnail,
-    creationDate,
-    category,
-    title,
-    subtitle,
-    content,
-    time,
-    comments,
-  } = article;
-  const day = creationDate.toLocaleDateString("en-GB", { day: "2-digit" });
-  const month = creationDate.toLocaleDateString("en-GB", { month: "short" });
+  const day = article?.creationDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+  });
+  const month = article?.creationDate.toLocaleDateString("en-GB", {
+    month: "short",
+  });
 
   return (
     <motion.div
@@ -72,54 +68,90 @@ const Card = ({ article }: Props) => {
       className={styles.container}
     >
       <div className={styles.date}>
-        <p>{day}</p>
-        <p>{month.toUpperCase()}</p>
+        {day && month && (
+          <>
+            <p>{day}</p>
+            <p>{month.toUpperCase()}</p>
+          </>
+        )}
       </div>
       <div className={styles.thumbnail_container}>
-        <motion.img
-          draggable={false}
-          transition={transitionDuration}
-          variants={imageMotion}
-          src={thumbnail}
-          alt="img"
-        />
+        {article ? (
+          <motion.img
+            draggable={false}
+            transition={transitionDuration}
+            variants={imageMotion}
+            src={article.thumbnail}
+            alt="img"
+          />
+        ) : (
+          <Skeleton
+            height={300}
+            width={300}
+            style={{ lineHeight: 300 }}
+            containerTestId="skeleton-image"
+          />
+        )}
       </div>
       <div className={styles.content_container}>
         <div className={styles.category}>
-          <span>{category.toUpperCase()}</span>
+          {article && <span>{article.category.toUpperCase()}</span>}
+          <br />
         </div>
         <div className={styles.article}>
           <div>
-            <p className={styles.title}>{title}</p>
-            <p className={styles.subtitle}>{subtitle}</p>
+            {article ? (
+              <>
+                <p className={styles.title}>{article.title}</p>
+                <p className={styles.subtitle}>{article.subtitle}</p>
+              </>
+            ) : (
+              <Skeleton containerTestId="skeleton-title" count={2} />
+            )}
             <motion.p
               transition={transitionDuration}
               variants={textMotion}
               className={styles.content}
             >
-              {content}
+              {article ? (
+                article.content
+              ) : (
+                <Skeleton count={3} containerTestId="skeleton-content" />
+              )}
             </motion.p>
           </div>
           <div className={styles.info_block}>
             <div className={styles.info_container}>
-              <img
-                draggable={false}
-                className={styles.info_icon}
-                src={clockIco}
-                alt=""
-              />
-              <p className={styles.info_text}>{time}</p>
+              {article ? (
+                <>
+                  <img
+                    draggable={false}
+                    className={styles.info_icon}
+                    src={clockIco}
+                    alt=""
+                  />
+                  <p className={styles.info_text}>{article.time}</p>
+                </>
+              ) : (
+                <Skeleton width={100} containerTestId="skeleton-time-ago" />
+              )}
             </div>
             <div className={styles.info_container}>
-              <img
-                draggable={false}
-                className={styles.info_icon}
-                src={commentIco}
-                alt=""
-              />
-              <p className={styles.info_text}>
-                {comments} comment{comments > 1 && "s"}
-              </p>
+              {article ? (
+                <>
+                  <img
+                    draggable={false}
+                    className={styles.info_icon}
+                    src={commentIco}
+                    alt=""
+                  />
+                  <p className={styles.info_text}>
+                    {article.comments} comment{article.comments > 1 && "s"}
+                  </p>
+                </>
+              ) : (
+                <Skeleton width={100} containerTestId="skeleton-comments" />
+              )}
             </div>
           </div>
         </div>

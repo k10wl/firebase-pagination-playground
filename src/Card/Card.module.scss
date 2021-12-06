@@ -20,7 +20,7 @@ $image-height: 275px;
     height: 50px;
     border-radius: 50%;
     background-color: $primary-1;
-    z-index: 1;
+    z-index: 2;
     p {
       font-weight: 600;
       text-align: center;
@@ -51,6 +51,7 @@ $image-height: 275px;
     z-index: 1;
 
     .category {
+      min-width: 50px;
       display: inline-block;
       padding: 3px 10px 0;
       background-color: $primary-1;
