@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import firebase from "firebase";
 
 import { firestore } from "@src/firebase";
@@ -76,7 +76,7 @@ const useFirebaseDB = () => {
       .then((collection) => {
         manageFetchedData(collection);
       });
-  }
+  };
 
   useEffect(() => {
     fetchData();
