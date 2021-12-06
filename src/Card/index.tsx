@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import TimeAgo from "timeago-react";
-        
+
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -10,17 +10,19 @@ import commentIco from "@images/comments.svg";
 
 import styles from "./Card.module.scss";
 
+export interface ArticleInterface {
+  category: string;
+  title: string;
+  subtitle: string;
+  content: string;
+  thumbnail: string;
+  creationDate: Date;
+  time: Date;
+  comments: number;
+}
+
 interface Props {
-  article?: {
-    category: string;
-    title: string;
-    subtitle: string;
-    content: string;
-    thumbnail: string;
-    creationDate: Date;
-    time: Date;
-    comments: number;
-  };
+  article?: ArticleInterface;
 }
 
 const cardMotion = {
