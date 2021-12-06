@@ -4,10 +4,12 @@ $card-height: 400px;
 $image-height: 275px;
 
 .container {
+  margin: 10px;
   position: relative;
   display: flex;
   align-items: flex-end;
-  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
   height: $card-height;
   overflow: hidden;
   border-radius: 10px;
