@@ -1,0 +1,116 @@
+@import "src/stylesheets/variables";
+
+$card-height: 400px;
+$image-height: 275px;
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 300px;
+  height: $card-height;
+  overflow: hidden;
+  border-radius: 10px;
+
+  .date {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: $primary-1;
+    z-index: 2;
+    p {
+      font-weight: 600;
+      text-align: center;
+      line-height: 0;
+      color: white;
+      &:last-child {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .thumbnail_container {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: $image-height;
+    overflow: hidden;
+    img {
+      height: 100%;
+    }
+  }
+
+  .content_container {
+    width: 100%;
+    overflow: hidden;
+    z-index: 1;
+
+    .category {
+      min-width: 50px;
+      display: inline-block;
+      padding: 3px 10px 0;
+      background-color: $primary-1;
+      text-align: center;
+      span {
+        font-family: "Open Sans", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #fff;
+      }
+    }
+    .article {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: white;
+      padding: 15px 20px;
+      min-height: calc(#{$card-height} - #{$image-height});
+      .title {
+        margin: 0 0 2px;
+        color: $secondary-1;
+        font-size: 1.3rem;
+        font-weight: 800;
+      }
+      .subtitle {
+        margin: 0 0 2px;
+        color: $primary-1;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      .content {
+        $line-height: 1.5rem;
+        font-family: "Roboto Condensed", sans-serif;
+        color: $secondary-2;
+        font-size: 0.8rem;
+        font-weight: 300;
+        line-height: $line-height;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+      .info_block {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+        .info_container {
+          display: flex;
+          align-items: center;
+          .info_icon {
+            height: 1rem;
+            margin-right: 3px;
+            margin-bottom: 4px;
+          }
+          .info_text {
+            margin: 0;
+            color: $secondary-2;
+          }
+        }
+      }
+    }
+  }
+}
