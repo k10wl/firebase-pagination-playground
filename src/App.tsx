@@ -17,13 +17,15 @@ type APICard = ArticleInterface & {
 };
 
 const App = () => {
-  const [articles, setArticles] = useState<APICard[] | undefined[]>([]);
+  const [articles, setArticles] = useState<APICard[]>([]);
+  const [loading, setLoading] = useState(false);
   const [lastArticle, setLastArticle] =
     useState<
       firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>
     >();
 
   useEffect(() => {
+    setLoading(true);
     firestore
       .collection("articles")
       .limit(10)
@@ -45,11 +47,13 @@ const App = () => {
           return article;
         });
         setArticles(articlesArray);
+        setLoading(false);
         setLastArticle(collection.docs[collection.docs.length - 1]);
       });
   }, []);
 
   const fetchData = () => {
+    setLoading(true);
     firestore
       .collection("articles")
       .startAfter(lastArticle)
@@ -71,15 +75,18 @@ const App = () => {
 
           return article;
         });
-        // @ts-ignore
         setArticles((prevState) => [...prevState, ...articlesArray]);
+        setLoading(false);
         setLastArticle(collection.docs[collection.docs.length - 1]);
       });
   };
 
   return (
     <>
-      <CardSkeleton />
+      {articles.map((article) => (
+        <Card key={article.id} article={article} />
+      ))}
+      {loading && [...Array(10)].map(() => <CardSkeleton />)}
       <button onClick={fetchData}>Load next</button>
     </>
   );
