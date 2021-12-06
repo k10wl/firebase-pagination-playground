@@ -35,6 +35,7 @@ const cardMotion = {
 const imageMotion = {
   hover: {
     scale: 1.15,
+    filter: "brightness(50%)",
   },
 };
 
