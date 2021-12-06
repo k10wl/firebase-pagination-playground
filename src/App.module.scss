@@ -11,13 +11,14 @@
 }
 
 .loading_options {
-  background-color: white;
-  padding: 15px;
-  border-radius: 15px;
-  border: 1px solid;
   position: fixed;
   right: 25px;
   bottom: 25px;
+  z-index: 9;
+  padding: 15px;
+  border: 1px solid;
+  border-radius: 15px;
+  background-color: white;
 
   label {
     display: block;
