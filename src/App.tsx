@@ -1,14 +1,20 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import firebase from "firebase";
 
 import Card, { CardSkeleton } from "@src/Card";
 
-import useFirebaseDB from "@src/hooks/useFirebaseDB";
+import usePaginatedCollection from "@src/hooks/usePaginatedCollection";
 
 import styles from "./App.module.scss";
 
 const App = () => {
   const [autoLoading, setAutoLoading] = useState(true);
-  const { loading, articles, fetchData, isMore } = useFirebaseDB();
+  const [articles, setArticles] = useState<any[]>([]);
+
+  const { loading, hasMore, getMore, docs } = usePaginatedCollection(
+    "articles",
+    10
+  );
 
   const observer = useRef(new IntersectionObserver(() => {}));
 
@@ -24,16 +30,30 @@ const App = () => {
         observer.current.disconnect();
       }
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && isMore) {
-          fetchData();
+        if (entries[0].isIntersecting && hasMore) {
+          getMore();
         }
       });
       if (node) {
         observer.current.observe(node);
       }
     },
-    [loading, autoLoading, isMore, fetchData]
+    [loading, autoLoading, hasMore, getMore]
   );
+
+  useEffect(() => {
+    setArticles(
+      docs.map((item: firebase.firestore.DocumentData) => {
+        const data = item.data();
+        return {
+          ...data,
+          id: item.id,
+          time: new Date(data.time.seconds * 1000),
+          creationDate: new Date(data.creationDate.seconds * 1000),
+        };
+      })
+    );
+  }, [docs]);
 
   return (
     <>
@@ -62,11 +82,8 @@ const App = () => {
             onChange={(e) => setAutoLoading(e.currentTarget.checked)}
           />
         </label>
-        <button
-          onClick={fetchData}
-          disabled={!isMore || autoLoading || loading}
-        >
-          {isMore ? "Load next" : "No more data"}
+        <button onClick={getMore} disabled={!hasMore || autoLoading || loading}>
+          {hasMore ? "Load next" : "No more data"}
         </button>
       </div>
     </>
